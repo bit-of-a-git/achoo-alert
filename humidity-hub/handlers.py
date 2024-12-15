@@ -2,7 +2,6 @@ from BlynkLib import Blynk
 import config
 
 
-# Blynk Handlers
 def set_up_blynk_handlers(blynk):
 
     # Synchronises device values to server values upon connection
@@ -27,10 +26,11 @@ def set_up_blynk_handlers(blynk):
         print(f"Automatic mode {'enabled' if config.auto_enabled else 'disabled'}")
 
 
-def check_humidity_values():
+# Alerts the user via the app that the min and max humidity levels have not been set
+def check_humidity_thresholds(blynk):
     if config.min_humidity is None or config.max_humidity is None:
         blynk.log_event("min_max_not_set")
-        print("Logged event: Min or max humidity not set")
+        print("Logged event: Min or max humidity thresholds not set")
 
     else:
         print(

@@ -7,6 +7,8 @@ from BlynkTimer import BlynkTimer
 from handlers import set_up_blynk_handlers, check_humidity_thresholds
 
 from sensor_listener import SensorListener
+from humidity_control import check_and_control_humidity
+import config
 
 
 # Load environment variables from .env file
@@ -20,6 +22,7 @@ timer = BlynkTimer()
 # Set up event handlers for Blynk instance
 set_up_blynk_handlers(blynk)
 
+# Every 60 seconds, checks whether min and max humidity levels have been set
 timer.set_timeout(60, lambda: check_humidity_thresholds(blynk))
 
 
@@ -36,6 +39,8 @@ def handle_data(data):
         if parsed_data.get("parameter").lower() == "humidity":
             humidity = parsed_data["value"]
             blynk.virtual_write(0, humidity)
+            if config.auto_enabled:
+                check_and_control_humidity(humidity)
         else:
             print(
                 f"Parameter '{parsed_data.get('parameter')}' is currently not supported."

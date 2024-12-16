@@ -1,5 +1,6 @@
 from BlynkLib import Blynk
 import config
+from humidity_control import send_device_command
 
 
 def set_up_blynk_handlers(blynk):
@@ -24,6 +25,22 @@ def set_up_blynk_handlers(blynk):
     def handle_v3_write(value):
         config.auto_enabled = value[0] == "1"
         print(f"Automatic mode {'enabled' if config.auto_enabled else 'disabled'}")
+
+    @blynk.on("V4")
+    def handle_v4_write(value):
+        if not config.auto_enabled:
+            if value[0] == "1":
+                send_device_command("ac", "on")
+            else:
+                send_device_command("ac", "off")
+
+    @blynk.on("V5")
+    def handle_v5_write(value):
+        if not config.auto_enabled:
+            if value[0] == "1":
+                send_device_command("humidifier", "on")
+            else:
+                send_device_command("humidifier", "off")
 
 
 # Alerts the user via the app that the min and max humidity levels have not been set

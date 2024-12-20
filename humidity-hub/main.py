@@ -8,12 +8,17 @@ from handlers import set_up_blynk_handlers, check_humidity_thresholds
 
 from sensor_listener import SensorListener
 from humidity_control import check_and_control_humidity
+
+from sense_hat import SenseHat
+from sensehat_handlers import SenseHatHandler
+
 import config
 
 
 # Load environment variables from .env file
 load_dotenv()
 BLYNK_AUTH = os.getenv("BLYNK_AUTH_TOKEN")
+UDP_PORT = int(os.getenv("UDP_PORT", 5000))
 
 # Initialise Blynk and BlynkTimer instance
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
@@ -51,14 +56,18 @@ def handle_data(data):
 
 def main():
     """
-    Main execution block to start the Blynk application and UDP listener.
+    Main execution block to start the Blynk application, UDP listener, and Sense Hat joystick listener.
     """
     print("Blynk application started. Listening for events...")
 
     # Initialises UDP listener
-    listener = SensorListener(port=5000)
+    listener = SensorListener(port=UDP_PORT)
     listener.callback = handle_data
     listener.start()
+
+    sense = SenseHat()
+    sensehat_handler = SenseHatHandler(sense)
+    sense.stick.direction_middle = sensehat_handler.button_pressed
 
     try:
         while True:
@@ -66,6 +75,8 @@ def main():
             timer.run()
     except KeyboardInterrupt:
         print("Blynk application stopped.")
+    finally:
+        listener.stop()
 
 
 if __name__ == "__main__":

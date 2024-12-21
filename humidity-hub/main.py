@@ -5,15 +5,14 @@ from dotenv import load_dotenv
 import BlynkLib
 from BlynkTimer import BlynkTimer
 from handlers import set_up_blynk_handlers, check_humidity_thresholds
-
 from sensor_listener import SensorListener
 from humidity_control import check_and_control_humidity
+from pollen import fetch_highest_risk
 
 from sense_hat import SenseHat
 from sensehat_handlers import SenseHatHandler
 
 import config
-
 
 # Load environment variables from .env file
 load_dotenv()
@@ -27,8 +26,12 @@ timer = BlynkTimer()
 # Set up event handlers for Blynk instance
 set_up_blynk_handlers(blynk)
 
-# Every 60 seconds, checks whether min and max humidity levels have been set
-timer.set_timeout(60, lambda: check_humidity_thresholds(blynk))
+
+def send_pollen_to_blynk():
+    risk = fetch_highest_risk()
+    blynk.virtual_write(6, risk)
+    if risk in ("High", "Very High"):
+        blynk.log_event("pollen_event")
 
 
 def handle_data(data):
@@ -69,6 +72,10 @@ def main():
     sensehat_handler = SenseHatHandler(sense)
     sense.stick.direction_middle = sensehat_handler.button_pressed
 
+    # Every 60 seconds, checks whether min and max humidity levels have been set
+    timer.set_timeout(10, lambda: check_humidity_thresholds(blynk))
+    timer.set_interval(600, send_pollen_to_blynk)
+
     try:
         while True:
             blynk.run()  # Process Blynk events
@@ -77,6 +84,7 @@ def main():
         print("Blynk application stopped.")
     finally:
         listener.stop()
+        sense.clear()
 
 
 if __name__ == "__main__":

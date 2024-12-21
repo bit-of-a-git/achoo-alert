@@ -28,6 +28,10 @@ class TCPClient:
                 # Sends the message to the server
                 self.client_socket.send(message.encode())
                 print("Message sent:", message)
+
+                response = self.client_socket.recv(1024)
+                return response.decode()
+            
             except Exception as e:
                 print(f"Error sending message: {e}")
         else:
@@ -45,6 +49,8 @@ if __name__ == "__main__":
     tcp_client.connect()
     if tcp_client.client_socket:
         test_string = {"device": "ac", "action": "off"}
-        tcp_client.send_message(json.dumps(test_string))
+        test_string = json.dumps(test_string)
+        return_message = tcp_client.send_message(test_string)
+        print(return_message)
         # Closes the connection after sending the message
         tcp_client.close()

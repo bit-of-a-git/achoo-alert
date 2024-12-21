@@ -41,5 +41,6 @@ def send_device_command(device, action):
     if tcp_client.client_socket:
         command = json.dumps({"device": device, "action": action})
         print(f"Sending command to {device}: {command}")
-        tcp_client.send_message(command)
+        return_message = tcp_client.send_message(command)
+        print(return_message)
         tcp_client.close()

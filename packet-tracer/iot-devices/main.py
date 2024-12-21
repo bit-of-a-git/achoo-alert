@@ -37,7 +37,7 @@ def loop():
     roundedValue = round(value / 255 * 100, ROUNDED_TO)
     data = {"parameter": ENVIRONMENT_NAME, "value": roundedValue}
     py_bridge.send(data)
-    delay(10000)
+    sleep(60)
 
 
 if __name__ == "__main__":

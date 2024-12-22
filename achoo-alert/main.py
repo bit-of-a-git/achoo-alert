@@ -77,8 +77,8 @@ def main():
     sense.stick.direction_middle = sensehat_handler.button_pressed
 
     # Every 60 seconds, checks whether min and max humidity levels have been set
-    timer.set_timeout(10, lambda: check_humidity_thresholds(blynk))
-    timer.set_interval(11, send_pollen_to_blynk)
+    timer.set_timeout(60, lambda: check_humidity_thresholds(blynk))
+    timer.set_interval(600, send_pollen_to_blynk)
 
     try:
         while True:

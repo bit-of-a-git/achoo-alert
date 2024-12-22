@@ -3,6 +3,9 @@ import config
 import json
 import os
 from dotenv import load_dotenv
+import logging
+import logging_config
+
 
 load_dotenv()
 
@@ -40,7 +43,6 @@ def send_device_command(device, action):
 
     if tcp_client.client_socket:
         command = json.dumps({"device": device, "action": action})
-        print(f"Sending command to {device}: {command}")
-        return_message = tcp_client.send_message(command)
-        print(return_message)
+        logging.info(f"Sending command to {device}: {command}")
+        tcp_client.send_message(command)
         tcp_client.close()

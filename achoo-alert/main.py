@@ -14,6 +14,10 @@ from sensehat_handlers import SenseHatHandler
 
 import config
 
+import logging
+import logging_config
+
+
 # Load environment variables from .env file
 load_dotenv()
 BLYNK_AUTH = os.getenv("BLYNK_AUTH_TOKEN")
@@ -38,7 +42,7 @@ def handle_data(data):
     """
     Process incoming data from the UDP listener.
     """
-    print(f"Processing data: {data}")
+    logging.info(f"Processing data: {data}")
     try:
         # Convert incoming JSON to a dictionary
         parsed_data = json.loads(data)
@@ -50,18 +54,18 @@ def handle_data(data):
             if config.auto_enabled:
                 check_and_control_humidity(humidity)
         else:
-            print(
+            logging.warning(
                 f"Parameter '{parsed_data.get('parameter')}' is currently not supported."
             )
     except json.JSONDecodeError:
-        print("Error: Received data is not valid JSON.")
+        logging.error("Error: Received data is not valid JSON.")
 
 
 def main():
     """
     Main execution block to start the Blynk application, UDP listener, and Sense Hat joystick listener.
     """
-    print("Blynk application started. Listening for events...")
+    logging.info("Blynk application started. Listening for events...")
 
     # Initialises UDP listener
     listener = SensorListener(port=UDP_PORT)
@@ -74,14 +78,14 @@ def main():
 
     # Every 60 seconds, checks whether min and max humidity levels have been set
     timer.set_timeout(10, lambda: check_humidity_thresholds(blynk))
-    timer.set_interval(600, send_pollen_to_blynk)
+    timer.set_interval(11, send_pollen_to_blynk)
 
     try:
         while True:
             blynk.run()  # Process Blynk events
             timer.run()
     except KeyboardInterrupt:
-        print("Blynk application stopped.")
+        logging.info("Blynk application stopped.")
     finally:
         listener.stop()
         sense.clear()

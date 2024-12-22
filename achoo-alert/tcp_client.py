@@ -1,5 +1,7 @@
 import socket
 import json
+import logging
+import logging_config
 
 
 class TCPClient:
@@ -16,10 +18,12 @@ class TCPClient:
 
             # Connects to the server
             self.client_socket.connect((self.server_ip, self.server_port))
-            print(f"Connected to server at {self.server_ip}, {self.server_port}")
+            logging.info(f"Connected to server at {self.server_ip}, {self.server_port}")
 
         except Exception as e:
-            print(f"Failed to connect to {self.server_ip}:{self.server_port} - {e}")
+            logging.error(
+                f"Failed to connect to {self.server_ip}:{self.server_port} - {e}"
+            )
             self.client_socket = None
 
     def send_message(self, message):
@@ -27,20 +31,20 @@ class TCPClient:
             try:
                 # Sends the message to the server
                 self.client_socket.send(message.encode())
-                print("Message sent:", message)
+                logging.info(f"Message sent: {message}")
 
                 response = self.client_socket.recv(1024)
-                return response.decode()
-            
+                logging.info(response.decode())
+
             except Exception as e:
-                print(f"Error sending message: {e}")
+                logging.error(f"Error sending message: {e}")
         else:
-            print("No active connection. Please connect first.")
+            logging.warning("No active connection. Please connect first.")
 
     def close(self):
         if self.client_socket:
             self.client_socket.close()
-            print("Connection closed.")
+            logging.info("Connection closed.")
 
 
 # For test usage
@@ -51,6 +55,7 @@ if __name__ == "__main__":
         test_string = {"device": "ac", "action": "off"}
         test_string = json.dumps(test_string)
         return_message = tcp_client.send_message(test_string)
-        print(return_message)
+        if return_message:
+            logging.info(f"Received response: {return_message}")
         # Closes the connection after sending the message
         tcp_client.close()

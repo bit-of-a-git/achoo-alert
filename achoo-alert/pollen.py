@@ -1,6 +1,8 @@
 import requests
 import os
 from dotenv import load_dotenv
+import logging
+import logging_config
 
 
 load_dotenv()
@@ -34,7 +36,7 @@ def fetch_pollen_data():
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"Request error: {e}")
+        logging.error(f"Request error: {e}")
         return None
 
 
@@ -43,7 +45,7 @@ def extract_risk_data(data):
     Extracts the 'Risk' dictionary from the API response.
     """
     if not data.get("data"):
-        print("Error: No data returned from the API.")
+        logging.error("Error: No data returned from the API.")
         return None
 
     return data["data"][0].get("Risk")
@@ -54,7 +56,7 @@ def determine_highest_risk(risk_data):
     Determines the highest risk level from the given risk data.
     """
     if not risk_data:
-        print("Error: No risk data available.")
+        logging.error("Error: No risk data available.")
         return None
 
     # max() iterates over the values of risk_data. Lambda ensures that max() uses the index in RISK_LEVEL_ORDER to compare risk levels.

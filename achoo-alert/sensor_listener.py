@@ -1,5 +1,7 @@
 import socket
 import threading
+import logging
+import logging_config
 
 
 class SensorListener:
@@ -24,22 +26,22 @@ class SensorListener:
         # Internal method to listen for UDP packets and handle them.
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as server:
             server.bind((self.host, self.port))
-            print(f"UDP Listener started on {self.host}:{self.port}")
+            logging.info(f"UDP Listener started on {self.host}:{self.port}")
             while self.running:
                 try:
                     data, address = server.recvfrom(self.buffer_size)
-                    print(f"Received data: {data.decode()} from {address}")
+                    logging.info(f"Received data: {data.decode()} from {address}")
                     if self.callback:
                         self.callback(data.decode())
                 except Exception as e:
-                    print(f"Error receiving data: {e}")
-            print("UDP Listener stopped.")
+                    logging.error(f"Error receiving data: {e}")
+            logging.info("UDP Listener stopped.")
 
 
 if __name__ == "__main__":
     # Example usage
     def handle_data(data):
-        print(f"Processing data: {data}")
+        logging.info(f"Processing data: {data}")
 
     listener = SensorListener(port=5000)
     listener.callback = handle_data

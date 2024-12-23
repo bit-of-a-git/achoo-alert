@@ -22,6 +22,8 @@ def fetch_highest_risk():
     Calls other functions that fetch data, extract risk data, and determine the highest risk level.
     """
     data = fetch_pollen_data()
+    if data is None:
+        return None
     risk_data = extract_risk_data(data)
     return determine_highest_risk(risk_data)
 

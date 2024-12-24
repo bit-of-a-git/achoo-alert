@@ -1,0 +1,10 @@
+blynk-library-python @ https://bit.ly/3C0PMVY
+certifi==2024.12.14
+charset-normalizer==3.4.0
+idna==3.10
+numpy==2.2.0
+pillow==11.0.0
+python-dotenv==1.0.1
+requests==2.32.3
+sense-hat==2.6.0
+urllib3==2.2.3

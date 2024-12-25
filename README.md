@@ -53,7 +53,7 @@ Ensure your Raspberry Pi and laptop are connected to the same local network.
 5. Create [2 Events & Notifications](img/events-notifications.png). Use the following pictures as a reference. [1](img/min-max-not-set-1.png) [2](img/min-max-not-set-2.png) [3](img/pollen-event-1.png) [4](img/pollen-event-2.png)
 6. Set up a [high pollen count automation](img/high-pollen-count-automation.png).
 7. Install [and configure](img/blynk-mobile-app.png) Blynk on your mobile phone.
-8. Copy the example env file with `cp .env.example .env`. Enter your Blynk template name and auth token.
+8. Copy the example env file with `cp .env.example .env`. Open the new .env file with a text editor of your choice, and enter your Blynk template name and auth token.
 
 ### Step 2: Packet Tracer Configuration
 1. On your laptop, open the "pi-project.pkt" file found in the packet-tracer directory.
@@ -77,6 +77,8 @@ cd RTIMULib/Linux/python
 python setup.py build
 python setup.py install
 cd ../../../achoo-alert
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 

@@ -14,6 +14,7 @@ POLLEN_API_KEY = os.getenv("POLLEN_API_KEY")
 POLLEN_URL = f"{POLLEN_ENDPOINT}?place={POLLEN_PLACE}"
 headers = {"x-api-key": POLLEN_API_KEY}
 
+# Used to determine the highest risk level from the risk data
 RISK_LEVEL_ORDER = ["Low", "Moderate", "High", "Very High"]
 
 
@@ -34,6 +35,7 @@ def fetch_pollen_data():
     """
     try:
         response = requests.get(POLLEN_URL, headers=headers)
+        # raise_for_status() raises an exception if the response status code is not 200
         # https://stackoverflow.com/questions/61463224/when-to-use-raise-for-status-vs-status-code-testing
         response.raise_for_status()
         return response.json()
@@ -67,4 +69,5 @@ def determine_highest_risk(risk_data):
 
 
 if __name__ == "__main__":
+    # For testing purposes
     print(fetch_highest_risk())

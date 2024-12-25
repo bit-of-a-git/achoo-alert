@@ -5,6 +5,10 @@ import logging_config
 
 
 class TCPClient:
+    """
+    A class to send messages to a TCP server.
+    """
+
     def __init__(self, server_ip, server_port):
         # Initalises the TCP client
         self.server_ip = server_ip

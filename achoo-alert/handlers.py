@@ -30,7 +30,7 @@ def set_up_blynk_handlers(blynk):
             f"Automatic mode {'enabled' if config.auto_enabled else 'disabled'}"
         )
 
-    # The below handlers run when pins 4 and 5 are written to. These are used to manually control the devices
+    # The below handlers run when pins 4 and 5 are written to. These are used to manually control the humidity control devices
     @blynk.on("V4")
     def handle_v4_write(value):
         if not config.auto_enabled:

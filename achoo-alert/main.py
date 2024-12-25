@@ -72,23 +72,25 @@ def main():
     listener.callback = handle_data
     listener.start()
 
+    # Initialises Sense Hat and sets up joystick event handler
     sense = SenseHat()
     sensehat_handler = SenseHatHandler(sense)
     sense.stick.direction_middle = sensehat_handler.button_pressed
 
-    # Every 60 seconds, checks whether min and max humidity levels have been set
+    # After 60 seconds, checks whether min and max humidity levels have been set
     timer.set_timeout(60, lambda: check_humidity_thresholds(blynk))
-    timer.set_interval(600, send_pollen_to_blynk)
+    # Every hour, fetches the highest pollen risk and sends it to Blynk
+    timer.set_interval(3600, send_pollen_to_blynk)
 
     try:
         while True:
             blynk.run()  # Process Blynk events
-            timer.run()
+            timer.run()  # Process BlynkTimer events
     except KeyboardInterrupt:
         logging.info("Blynk application stopped.")
     finally:
-        listener.stop()
-        sense.clear()
+        listener.stop()  # Stops the UDP listener
+        sense.clear()  # Clears the Sense Hat display
 
 
 if __name__ == "__main__":

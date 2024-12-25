@@ -135,4 +135,13 @@ SCROLL_SPEED = 0.1  # Scroll speed for Sense HAT text
 ```
 Logging configuration options are stored in achoo-alert/logging_config.py.
 
-## Credits
+## Sources referenced
+
+TCP clients:
+- https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-python
+- https://medium.com/@mando_elnino/python-tcp-server-b945c68a983c
+- https://docs.python.org/3/howto/sockets.html
+
+Other:
+- https://stackoverflow.com/questions/61463224/when-to-use-raise-for-status-vs-status-code-testing
+- https://stackoverflow.com/questions/18296755/python-max-function-using-key-and-lambda-expression

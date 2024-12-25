@@ -5,6 +5,10 @@ import logging_config
 
 
 class SensorListener:
+    """
+    A class to listen for incoming UDP packets.
+    """
+
     def __init__(self, host="0.0.0.0", port=5000, buffer_size=1024):
         # Initialise the UDP Listener.
         self.host = host

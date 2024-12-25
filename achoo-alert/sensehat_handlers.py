@@ -11,6 +11,9 @@ class SenseHatHandler:
         self.sense = sense
 
     def button_pressed(self, event):
+        """
+        Displays the highest pollen risk on the Sense HAT when the middle button is pressed.
+        """
         if event.action == "pressed":
             risk = pollen.fetch_highest_risk()
             if risk:
@@ -25,6 +28,7 @@ class SenseHatHandler:
 
 
 if __name__ == "__main__":
+    # For testing purposes
     sense = SenseHat()
     sensehat_handler = SenseHatHandler(sense)
     sense.stick.direction_middle = sensehat_handler.button_pressed

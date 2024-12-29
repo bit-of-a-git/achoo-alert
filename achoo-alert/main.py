@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 import BlynkLib
 from BlynkTimer import BlynkTimer
-from handlers import set_up_blynk_handlers, check_humidity_thresholds
+from blynk_handlers import set_up_blynk_handlers, check_humidity_thresholds
 from sensor_listener import SensorListener
 from humidity_control import check_and_control_humidity
 from pollen import fetch_highest_risk

@@ -1,8 +1,9 @@
-from BlynkLib import Blynk
-import config
-from humidity_control import send_device_command
 import logging
+
+import config
 import logging_config
+from BlynkLib import Blynk
+from humidity_control import send_device_command
 
 
 def set_up_blynk_handlers(blynk):

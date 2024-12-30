@@ -1,9 +1,9 @@
-import requests
-import os
-from dotenv import load_dotenv
 import logging
-import logging_config
+import os
 
+import logging_config
+import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 

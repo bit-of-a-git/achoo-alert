@@ -1,22 +1,18 @@
-import os
 import json
-from dotenv import load_dotenv
+import logging
+import os
 
 import BlynkLib
+import config
+import logging_config
+from blynk_handlers import check_humidity_thresholds, set_up_blynk_handlers
 from BlynkTimer import BlynkTimer
-from blynk_handlers import set_up_blynk_handlers, check_humidity_thresholds
-from sensor_listener import SensorListener
+from dotenv import load_dotenv
 from humidity_control import check_and_control_humidity
 from pollen import fetch_highest_risk
-
 from sense_hat import SenseHat
 from sensehat_handlers import SenseHatHandler
-
-import config
-
-import logging
-import logging_config
-
+from sensor_listener import SensorListener
 
 # Load environment variables from .env file
 load_dotenv()

@@ -1,6 +1,7 @@
-import socket
 import json
 import logging
+import socket
+
 import logging_config
 
 

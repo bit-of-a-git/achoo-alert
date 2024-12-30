@@ -1,6 +1,7 @@
-from time import *
-from realudp import *
 import json
+from time import *
+
+from realudp import *
 
 IP = "192.168.1.41"
 PORT = 5000

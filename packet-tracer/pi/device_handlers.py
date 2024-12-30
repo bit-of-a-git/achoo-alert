@@ -1,5 +1,7 @@
 import json
+
 from gpio import *
+
 
 def control_ac(action):
     if action == "on":
@@ -11,6 +13,7 @@ def control_ac(action):
     else:
         return {"status": "error", "message": "Unknown AC action: " + action}
 
+
 def control_humidifier(action):
     if action == "on":
         customWrite(0, 1)
@@ -20,6 +23,7 @@ def control_humidifier(action):
         return {"status": "success", "message": "Turning Humidifier OFF"}
     else:
         return {"status": "error", "message": "Unknown Humidifier action: " + action}
+
 
 def handle_command(json_data):
     try:

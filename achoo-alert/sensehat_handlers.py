@@ -1,6 +1,6 @@
-from sense_hat import SenseHat
 import pollen
 from config import RISK_COLOURS, SCROLL_SPEED
+from sense_hat import SenseHat
 
 
 class SenseHatHandler:

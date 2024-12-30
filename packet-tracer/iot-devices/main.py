@@ -1,11 +1,11 @@
-from gpio import *
-from time import *
-from physical import *
-from environment import *
-from pyjs import *
 import math
-import py_bridge
+from time import *
 
+import py_bridge
+from environment import *
+from gpio import *
+from physical import *
+from pyjs import *
 
 ENVIRONMENT_NAME = "Humidity"
 MIN = 0
